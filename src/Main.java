@@ -1,14 +1,17 @@
-import utils.DatabaseConnection;
-import java.sql.Connection;
+import exception.*;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            System.out.println("Connected successfully!");
-            conn.close();
-        } catch (Exception e) {
-            System.out.println("Connection failed: " + e.getMessage());
+            throw new InvalidInputException("Invalid card level");
+        } catch (InvalidInputException e) {
+            System.out.println("Caught: " + e.getMessage());
+        }
+
+        try {
+            throw new ResourceNotFoundException("Card not found");
+        } catch (ResourceNotFoundException e) {
+            System.out.println ("Caught: " + e.getMessage());
         }
     }
 }
