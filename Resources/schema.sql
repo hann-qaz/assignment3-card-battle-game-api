@@ -23,7 +23,7 @@ create table decks (
     deck_name varchar(50)
 );
 
---- таблица для связи карт в колоде ( ровно 8 карт в одной колоде) многие ко многим
+-- таблица для связи карт в колоде ( по 8 карт в одной колоде) многие ко многим
 create table deck_cards (
 deck_id int not null references decks(id) on delete cascade,
 card_id int not null references cards(id) on delete cascade,
@@ -32,7 +32,7 @@ primary key (deck_id, card_id),
 unique (deck_id, position)
 );
 
--- анные
+---- данны
 insert into players (name, level, trophies) values
 ('Player1', 10, 4500),
 ('Player2', 8, 3200);
