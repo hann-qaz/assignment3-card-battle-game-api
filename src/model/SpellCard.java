@@ -11,13 +11,13 @@ public class SpellCard extends Card {
     }
 
     @Override
-    public String getType() { return "Spell:"; }
+    public String getType() { return "Spell"; }
 
     //getters setters
     public int getRadius() { return radius; }
     public int getDamage() { return damage; }
-    public void setRadius(int Radius) {this.radius = radius; }
-    public void setDamage() { this.damage = damage;}
+    public void setRadius(int radius) {this.radius = radius; }
+    public void setDamage(int damage) { this.damage = damage;}
 
 
 }
