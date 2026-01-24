@@ -61,7 +61,7 @@ INSERT INTO cards (name, card_type, rarity, level) VALUES ('Knight', 'Warrior', 
 
 *   **Create (Создание)**: Метод `createCard` принимает DTO, валидирует данные и создает новую запись в БД.
 *   **Read (Чтение)**: Метод `listAllCards` запрашивает все записи из таблицы и выводит их в консоль.
-*   **Update (Обновление)**: Метод `upgradeCard` изменяет сост
+*   **Update (Обновление)**: Метод `upgradeCard` изменяет состояние карты (например, уровень) и сохраняет изменения.
 
 ## E. Instructions to Compile and Run
 Требуется: JDK 17+, PostgreSQL, JDBC Driver.
