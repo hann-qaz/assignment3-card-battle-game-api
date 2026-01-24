@@ -34,7 +34,7 @@ public class CardController {
             System.out.println("\n📋 All Cards:");
             cards.forEach(card -> System.out.println("  - " + card.getBasicInfo()));
         } catch (DatabaseOperationException e) {
-            System.err.println("❌ Error listing cards: " + e.getMessage());
+            System.err.println("X Error listing cards: " + e.getMessage());
         }
     }
 
@@ -42,7 +42,7 @@ public class CardController {
         try {
             cardService.upgradeCard(id);
         } catch (ResourceNotFoundException | DatabaseOperationException | InvalidInputException e) {
-            System.err.println("❌ Error upgrading card: " + e.getMessage());
+            System.err.println("X Error upgrading card: " + e.getMessage());
         }
     }
 
@@ -50,7 +50,7 @@ public class CardController {
         try {
             cardService.deleteCard(id);
         } catch (ResourceNotFoundException | DatabaseOperationException e) {
-            System.err.println("❌ Error deleting card: " + e.getMessage());
+            System.err.println("X Error deleting card: " + e.getMessage());
         }
     }
 }
