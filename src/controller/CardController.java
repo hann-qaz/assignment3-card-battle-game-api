@@ -18,9 +18,11 @@ public class CardController {
         try {
             Card card;
             if ("WARRIOR".equals(dto.type)) {
-                card = new WarriorCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, 0, 0);
+                card = new WarriorCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, dto.hp, dto.damage);
+            } else if ("BUILDING".equals(dto.type)) {
+                card = new BuildingCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, dto.hp, dto.lifetime);
             } else {
-                card = new SpellCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, 0, 0);
+                card = new SpellCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, dto.radius, dto.damage);
             }
             cardService.createCard(card);
         } catch (InvalidInputException | DatabaseException e) {
