@@ -7,25 +7,25 @@ import exception.InvalidInputException;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("🎮 Clash Royale Card Battle API");
-        System.out.println("================================\n");
+        System.out.println("🎮 Clash Royale game API");
+        System.out.println("==============================================\n");
 
         CardController cardController = new CardController();
         PlayerController playerController = new PlayerController();
 
         // 1. Создание игроков
-        System.out.println("📝 Creating players...");
-        playerController.createPlayer(new PlayerDTO("SuperGamer"));
-        playerController.createPlayer(new PlayerDTO("ProPlayer"));
+        System.out.println(" Creating players...");
+        playerController.createPlayer(new PlayerDTO("Noob"));
+        playerController.createPlayer(new PlayerDTO("Pro"));
 
         // Попытка создать дубликат
-        System.out.println("\n❗ Attempting to create duplicate player:");
-        playerController.createPlayer(new PlayerDTO("SuperGamer"));
+        System.out.println("\n ! Attempting to create duplicate player:");
+        playerController.createPlayer(new PlayerDTO("Pro"));
 
         // 2. Создание карт
         System.out.println("\n📝 Creating cards...");
-        cardController.createCard(new CardDTO("Knight", "WARRIOR", "COMMON", 3, 1));
-        cardController.createCard(new CardDTO("Fireball", "SPELL", "RARE", 4, 1));
+        cardController.createCard(new CardDTO("Knight", "WARRIOR", "COMMON", 3, 2));
+        cardController.createCard(new CardDTO("Fireball", "SPELL", "RARE", 4, 3));
         cardController.createCard(new CardDTO("Princess", "WARRIOR", "LEGENDARY", 3, 1));
 
         // 3. Список всех карт
@@ -33,7 +33,7 @@ public class Main {
 
         // 4. Апгрейд карты
         System.out.println("\n⬆️ Upgrading card...");
-        cardController.upgradeCard(1);
+        cardController.upgradeCard(3);
 
         // 5. Полиморфизм
         System.out.println("\n🔀 Demonstrating polymorphism:");

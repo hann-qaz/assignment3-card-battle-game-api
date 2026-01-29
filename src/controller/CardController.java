@@ -17,14 +17,14 @@ public class CardController {
     public void createCard(CardDTO dto) {
         try {
             Card card;
-            if ("TROOP".equals(dto.type)) {
+            if ("WARRIOR".equals(dto.type)) {
                 card = new WarriorCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, 0, 0);
             } else {
                 card = new SpellCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, 0, 0);
             }
             cardService.createCard(card);
-        } catch (InvalidInputException | DatabaseOperationException e) {
-            System.err.println("❌ Error creating card: " + e.getMessage());
+        } catch (InvalidInputException | DatabaseException e) {
+            System.err.println("X Error creating card: " + e.getMessage());
         }
     }
 
@@ -33,7 +33,7 @@ public class CardController {
             List<Card> cards = cardService.getAllCards();
             System.out.println("\n📋 All Cards:");
             cards.forEach(card -> System.out.println("  - " + card.getBasicInfo()));
-        } catch (DatabaseOperationException e) {
+        } catch (DatabaseException e) {
             System.err.println("X Error listing cards: " + e.getMessage());
         }
     }
@@ -41,7 +41,7 @@ public class CardController {
     public void upgradeCard(int id) {
         try {
             cardService.upgradeCard(id);
-        } catch (ResourceNotFoundException | DatabaseOperationException | InvalidInputException e) {
+        } catch (ResourceNotFoundException | DatabaseException | InvalidInputException e) {
             System.err.println("X Error upgrading card: " + e.getMessage());
         }
     }
@@ -49,7 +49,7 @@ public class CardController {
     public void deleteCard(int id) {
         try {
             cardService.deleteCard(id);
-        } catch (ResourceNotFoundException | DatabaseOperationException e) {
+        } catch (ResourceNotFoundException | DatabaseException e) {
             System.err.println("X Error deleting card: " + e.getMessage());
         }
     }

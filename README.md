@@ -44,7 +44,7 @@ for (Card c : cards) {
     └── BuildingCard``
 
 ## C. Database Description
-Используется PostgreSQL. Скрипт инициализации: Resources/schema.sql.
+Используется PostgreSQL. Скрипт находдится в  Resources/schema.sql.
 Схема и ограничения
 players: id (PK), name (Unique), trophies.
 cards: id (PK), type, rarity, elixir (Check 1-10).

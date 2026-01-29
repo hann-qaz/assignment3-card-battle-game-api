@@ -20,7 +20,7 @@ public class Player extends GameEntity {
 
     @Override
     public void validate() throws InvalidInputException {
-        if (name == null || name.trim().isEmpty()) {
+        if (name == null) {
             throw new InvalidInputException("Player name cannot be empty");
         }
         if (level < 1) {
@@ -31,11 +31,12 @@ public class Player extends GameEntity {
         }
     }
 
-    // Getters and Setters
+    // getters
     public int getLevel() { return level; }
-    public void setLevel(int level) { this.level = level; }
     public int getTrophies() { return trophies; }
-    public void setTrophies(int trophies) { this.trophies = trophies; }
     public Deck getDeck() { return deck; }
+    /// setters
+    public void setLevel(int level) { this.level = level; }
+    public void setTrophies(int trophies) { this.trophies = trophies; }
     public void setDeck(Deck deck) { this.deck = deck; }
 }

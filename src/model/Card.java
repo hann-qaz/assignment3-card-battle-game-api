@@ -15,7 +15,7 @@ public abstract class Card extends GameEntity implements Upgradable {
 
     @Override
     public void validate() throws InvalidInputException {
-        if (name == null || name.trim().isEmpty()) {
+        if (name == null) {
             throw new InvalidInputException("Card name is empty!");
         }
         if (elixirCost < 1 || elixirCost > 10) {
@@ -44,6 +44,6 @@ public abstract class Card extends GameEntity implements Upgradable {
     public int getLevel() { return level; }
     public void setRarity( String rarity) { this.rarity = rarity; }
     public void setElixirCost(int elixirCost) { this.elixirCost = elixirCost; }
-    public void getLevel(int level) { this.level=level; }
+    public void setLevel(int level) { this.level=level; }
 
 }

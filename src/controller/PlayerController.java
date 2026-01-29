@@ -18,7 +18,7 @@ public class PlayerController {
         try {
             Player player = new Player(0, dto.name, 1, 0);
             playerService.createPlayer(player);
-        } catch (InvalidInputException | DatabaseOperationException | DuplicateResourceException e) {
+        } catch (InvalidInputException | DatabaseException | DuplicateResourceException e) {
             System.err.println("❌ Error creating player: " + e.getMessage());
         }
     }
@@ -26,10 +26,10 @@ public class PlayerController {
     public void listAllPlayers() {
         try {
             List<Player> players = playerService.getAllPlayers();
-            System.out.println("\n👥 All Players:");
+            System.out.println("\n All Players:");
             players.forEach(player -> System.out.println("  - " + player.getBasicInfo() +
                     " | Level: " + player.getLevel() + " | Trophies: " + player.getTrophies()));
-        } catch (DatabaseOperationException e) {
+        } catch (DatabaseException e) {
             System.err.println("❌ Error listing players: " + e.getMessage());
         }
     }
@@ -37,7 +37,7 @@ public class PlayerController {
     public void addTrophies(int playerId, int trophies) {
         try {
             playerService.addTrophies(playerId, trophies);
-        } catch (ResourceNotFoundException | DatabaseOperationException | InvalidInputException e) {
+        } catch (ResourceNotFoundException | DatabaseException | InvalidInputException e) {
             System.err.println("❌ Error adding trophies: " + e.getMessage());
         }
     }

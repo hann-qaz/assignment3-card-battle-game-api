@@ -8,28 +8,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardRepository {
-    public void create(Card card) throws DatabaseOperationException {
-    String sql = "insert into cards (name, card_type, rarity, elixir_cost, level) values (?, ?, ?, ?, ?)";
+    public void create(Card card) throws DatabaseException {
+        String sql = "insert into cards (name, card_type, rarity, elixir_cost, level) values (?, ?, ?, ?, ?)";
 
-    try (Connection conn = DatabaseConnection.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        stmt.setString(1, card.getName());
-        stmt.setString(2, card.getType());
-        stmt.setString(3, card.getRarity());
-        stmt.setInt(4, card.getElixirCost());
-        stmt.setInt(5, card.getLevel());
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, card.getName());
+            stmt.setString(2, card.getType());
+            stmt.setString(3, card.getRarity());
+            stmt.setInt(4, card.getElixirCost());
+            stmt.setInt(5, card.getLevel());
 
-        stmt.executeUpdate();
+            stmt.executeUpdate();
 
-        ResultSet rs = stmt.getGeneratedKeys();
-        if (rs.next()) {
-            card.setId(rs.getInt(1));
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                card.setId(rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to create card", e);
         }
-    } catch (SQLException e) {
-        throw new DatabaseOperationException("Failed to create card", e);
     }
-}
- public List<Card> getAll() throws DatabaseOperationException {
+    public List<Card> getAll() throws DatabaseException {
         List<Card> cards = new ArrayList<>();
         String sql = "select * from cards";
 
@@ -42,15 +42,15 @@ public class CardRepository {
                 cards.add(card);
             }
         } catch (SQLException e) {
-            throw new DatabaseOperationException("Failed to get all cards", e);
+            throw new DatabaseException("Failed to get all cards", e);
         }
         return cards;
- }
-public Card getByID(int id) throws ResourceNotFoundException, DatabaseOperationException {
+    }
+    public Card getByID(int id) throws ResourceNotFoundException, DatabaseException {
         String sql = "select * from cards where id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-        PreparedStatement stmt = conn.prepareStatement (sql)) {
+             PreparedStatement stmt = conn.prepareStatement (sql)) {
 
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -61,11 +61,11 @@ public Card getByID(int id) throws ResourceNotFoundException, DatabaseOperationE
                 throw new ResourceNotFoundException("Card with id" + id + "not found");
             }
         } catch (SQLException e) {
-            throw new DatabaseOperationException("Failed to get card by id", e);
+            throw new DatabaseException("Failed to get card by id", e);
         }
     }
 
-    public void update(int id, Card card) throws DatabaseOperationException, ResourceNotFoundException {
+    public void update(int id, Card card) throws DatabaseException, ResourceNotFoundException {
         String sql = "update cards set name = ?, card_type=?, rarity = ?, elixir_cost = ?, level = & where id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -83,15 +83,15 @@ public Card getByID(int id) throws ResourceNotFoundException, DatabaseOperationE
                 throw new ResourceNotFoundException("Card with id " + id + " not found");
             }
         } catch (SQLException e) {
-            throw new DatabaseOperationException("Failed to update card", e);
+            throw new DatabaseException("Failed to update card", e);
         }
     }
 
-    public void delete(int id) throws ResourceNotFoundException, DatabaseOperationException {
+    public void delete(int id) throws ResourceNotFoundException, DatabaseException {
         String sql = "delete from cards where id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             int rowsAffected = stmt.executeUpdate();
 
@@ -99,13 +99,12 @@ public Card getByID(int id) throws ResourceNotFoundException, DatabaseOperationE
                 throw new ResourceNotFoundException("Card with id " + id + " not found");
             }
         } catch (SQLException e) {
-            throw new DatabaseOperationException("Failed to delete card", e);
+            throw new DatabaseException("Failed to delete card", e);
         }
     }
 
     private Card mapResultSetToCard(ResultSet rs) throws SQLException {
         String type = rs.getString("card_type");
-
         if ("Warrior".equals(type)) {
             return new WarriorCard(
                     rs.getInt("id"),
@@ -139,7 +138,7 @@ public Card getByID(int id) throws ResourceNotFoundException, DatabaseOperationE
         }
     }
 
-    public Card getById(int id) throws ResourceNotFoundException, DatabaseOperationException {
+    public Card getById(int id) throws ResourceNotFoundException, DatabaseException {
         String sql = "SELECT * FROM cards WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -166,28 +165,7 @@ public Card getByID(int id) throws ResourceNotFoundException, DatabaseOperationE
             }
 
         } catch (SQLException e) {
-            throw new DatabaseOperationException("Failed to get card: ", e);
+            throw new DatabaseException("Failed to get card: ", e);
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

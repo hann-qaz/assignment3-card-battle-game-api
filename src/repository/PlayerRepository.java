@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PlayerRepository {
 
-    public void create(Player player) throws DatabaseOperationException, DuplicateResourceException {
+    public void create(Player player) throws DatabaseException, DuplicateResourceException {
         String sql = "INSERT INTO players (name, level, trophies) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -30,11 +30,11 @@ public class PlayerRepository {
             if (e.getMessage().contains("duplicate key")) {
                 throw new DuplicateResourceException("Player with name '" + player.getName() + "' already exists");
             }
-            throw new DatabaseOperationException("Failed to create player", e);
+            throw new DatabaseException("Failed to create player", e);
         }
     }
 
-    public List<Player> getAll() throws DatabaseOperationException {
+    public List<Player> getAll() throws DatabaseException {
         List<Player> players = new ArrayList<>();
         String sql = "SELECT * FROM players";
 
@@ -46,13 +46,13 @@ public class PlayerRepository {
                 players.add(mapResultSetToPlayer(rs));
             }
         } catch (SQLException e) {
-            throw new DatabaseOperationException("Failed to get all players", e);
+            throw new DatabaseException("Failed to get all players", e);
         }
 
         return players;
     }
 
-    public Player getById(int id) throws ResourceNotFoundException, DatabaseOperationException {
+    public Player getById(int id) throws ResourceNotFoundException, DatabaseException {
         String sql = "SELECT * FROM players WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -67,11 +67,11 @@ public class PlayerRepository {
                 throw new ResourceNotFoundException("Player with id " + id + " not found");
             }
         } catch (SQLException e) {
-            throw new DatabaseOperationException("Failed to get player by id", e);
+            throw new DatabaseException("Failed to get player by id", e);
         }
     }
 
-    public void update(int id, Player player) throws DatabaseOperationException, ResourceNotFoundException {
+    public void update(int id, Player player) throws DatabaseException, ResourceNotFoundException {
         String sql = "UPDATE players SET name = ?, level = ?, trophies = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -87,11 +87,11 @@ public class PlayerRepository {
                 throw new ResourceNotFoundException("Player with id " + id + " not found");
             }
         } catch (SQLException e) {
-            throw new DatabaseOperationException("Failed to update player", e);
+            throw new DatabaseException("Failed to update player", e);
         }
     }
 
-    public void delete(int id) throws ResourceNotFoundException, DatabaseOperationException {
+    public void delete(int id) throws ResourceNotFoundException, DatabaseException {
         String sql = "DELETE FROM players WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -104,7 +104,7 @@ public class PlayerRepository {
                 throw new ResourceNotFoundException("Player with id " + id + " not found");
             }
         } catch (SQLException e) {
-            throw new DatabaseOperationException("Failed to delete player", e);
+            throw new DatabaseException("Failed to delete player", e);
         }
     }
 

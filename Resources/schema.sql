@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS deck_cards;
+DROP TABLE IF EXISTS decks;
+DROP TABLE IF EXISTS cards;
+DROP TABLE IF EXISTS players;
+
 ---таблица игроков
 create table players (
     id serial primary key,
@@ -13,7 +18,11 @@ create table cards (
     card_type varchar(20), --воин, заклинание, здание
     rarity varchar (20), --обычная, редкая, эпик, легендарка
     elixir_cost int  check (elixir_cost > 0 and elixir_cost <= 10),
-    level int default 1 check ( level > 0 and level <= 16)
+    level int default 1 check ( level > 0 and level <= 16),
+    damage int default 0,
+    hp int default 0,
+    radius int default 0,
+    lifetime int default 0
 );
 
 --- таблица колод
@@ -31,19 +40,3 @@ position int not null check (position >= 1 and position <=8),
 primary key (deck_id, card_id),
 unique (deck_id, position)
 );
-
----- данны
-insert into players (name, level, trophies) values
-('Player1', 10, 4500),
-('Player2', 8, 3200);
-insert into cards (name, card_type, rarity, elixir_cost, level) values
-('Knight', 'Warrior', 'Common', 3, 5),
-('Fireball', 'Spell', 'Rare', 4, 3),
-('Cannon', 'Building', 'Common', 3, 6),
-('Archer', 'Warrior', 'Common', 3, 7),
-('Giant', 'Warrior', 'Epic', 5, 4),
-('Zap', 'Spell', 'Common', 2, 8),
-('Tesla', 'Building', 'Rare', 4, 2),
-('Wizard', 'Warrior', 'Epic', 5, 5);
-
-

@@ -17,7 +17,5 @@ public class SpellCard extends Card {
     public int getRadius() { return radius; }
     public int getDamage() { return damage; }
     public void setRadius(int radius) {this.radius = radius; }
-    public void setDamage(int damage) { this.damage = damage;}
-
-
+    public void setDamage(int damage) {this.damage = damage;}
 }
