@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CardRepository {
     public void create(Card card) throws DatabaseException {
-        String sql = "insert into cards (name, card_type, rarity, elixir_cost, level) values (?, ?, ?, ?, ?)";
+        String sql = "insert into cards (name, card_type, rarity, elixir_cost, level, damage, hp, radius, lifetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -19,6 +19,32 @@ public class CardRepository {
             stmt.setInt(4, card.getElixirCost());
             stmt.setInt(5, card.getLevel());
 
+
+            // Set card-specific attributes
+            if (card instanceof WarriorCard) {
+                WarriorCard warrior = (WarriorCard) card;
+                stmt.setInt(6, warrior.getDamage());
+                stmt.setInt(7, warrior.getHp());
+                stmt.setInt(8, 0);
+                stmt.setInt(9, 0);
+            } else if (card instanceof SpellCard) {
+                SpellCard spell = (SpellCard) card;
+                stmt.setInt(6, spell.getDamage());
+                stmt.setInt(7, 0);
+                stmt.setInt(8, spell.getRadius());
+                stmt.setInt(9, 0);
+            } else if (card instanceof BuildingCard) {
+                BuildingCard building = (BuildingCard) card;
+                stmt.setInt(6, 0);
+                stmt.setInt(7, building.getHp());
+                stmt.setInt(8, 0);
+                stmt.setInt(9, building.getLifetime());
+            } else {
+                stmt.setInt(6, 0);
+                stmt.setInt(7, 0);
+                stmt.setInt(8, 0);
+                stmt.setInt(9, 0);
+            }
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
@@ -66,18 +92,37 @@ public class CardRepository {
     }
 
     public void update(int id, Card card) throws DatabaseException, ResourceNotFoundException {
-        String sql = "update cards set name = ?, card_type=?, rarity = ?, elixir_cost = ?, level = & where id = ?";
-
+        String sql = "update cards set name = ?, card_type=?, rarity = ?, elixir_cost = ?, level = ?, hp = ?, damage = ?, lifetime = ?, radius = ? where id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, card.getName());
             stmt.setString(2, card.getType());
             stmt.setString(3, card.getRarity());
             stmt.setInt(4, card.getElixirCost());
             stmt.setInt(5, card.getLevel());
-            stmt.setInt(6, id);
 
+            // Set card-specific attributes based on card type
+            if (card instanceof WarriorCard) {
+                WarriorCard warrior = (WarriorCard) card;
+                stmt.setInt(6, warrior.getHp());
+                stmt.setInt(7, warrior.getDamage());
+                stmt.setInt(8, 0);
+                stmt.setInt(9, 0);
+            } else if (card instanceof BuildingCard) {
+                BuildingCard building = (BuildingCard) card;
+                stmt.setInt(6, building.getHp());
+                stmt.setInt(7, 0);
+                stmt.setInt(8, building.getLifetime());
+                stmt.setInt(9, 0);
+            } else if (card instanceof SpellCard) {
+                SpellCard spell = (SpellCard) card;
+                stmt.setInt(6, 0);
+                stmt.setInt(7, spell.getDamage());
+                stmt.setInt(8, 0);
+                stmt.setInt(9, spell.getRadius());
+            }
+
+            stmt.setInt(10, id);
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected == 0) {
                 throw new ResourceNotFoundException("Card with id " + id + " not found");
@@ -138,34 +183,5 @@ public class CardRepository {
         }
     }
 
-    public Card getById(int id) throws ResourceNotFoundException, DatabaseException {
-        String sql = "SELECT * FROM cards WHERE id = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new Card(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("rarity"),
-                        rs.getInt("elixir_cost"),
-                        rs.getInt("level")
-                ) {
-                    @Override
-                    public String getType() {
-                        return "";
-                    }
-                };
-            } else {
-                throw new ResourceNotFoundException("Card not found with id: " + id);
-            }
-
-        } catch (SQLException e) {
-            throw new DatabaseException("Failed to get card: ", e);
-        }
-    }
 }

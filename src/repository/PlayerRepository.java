@@ -36,7 +36,7 @@ public class PlayerRepository {
 
     public List<Player> getAll() throws DatabaseException {
         List<Player> players = new ArrayList<>();
-        String sql = "SELECT * FROM players";
+        String sql = "select * from players";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -53,7 +53,7 @@ public class PlayerRepository {
     }
 
     public Player getById(int id) throws ResourceNotFoundException, DatabaseException {
-        String sql = "SELECT * FROM players WHERE id = ?";
+        String sql = "select * from players where id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -72,7 +72,7 @@ public class PlayerRepository {
     }
 
     public void update(int id, Player player) throws DatabaseException, ResourceNotFoundException {
-        String sql = "UPDATE players SET name = ?, level = ?, trophies = ? WHERE id = ?";
+        String sql = "update players set name = ?, level = ?, trophies = ? where id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -92,7 +92,7 @@ public class PlayerRepository {
     }
 
     public void delete(int id) throws ResourceNotFoundException, DatabaseException {
-        String sql = "DELETE FROM players WHERE id = ?";
+        String sql = "delete from players where id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

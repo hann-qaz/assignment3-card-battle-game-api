@@ -7,60 +7,61 @@ import exception.InvalidInputException;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("🎮 Clash Royale game API");
-        System.out.println("==============================================\n");
+        System.out.println(" Clash Royale game API");
+        System.out.println("==============================================");
 
         CardController cardController = new CardController();
         PlayerController playerController = new PlayerController();
 
         // 1. Создание игроков
-        System.out.println(" Creating players...");
-        playerController.createPlayer(new PlayerDTO("Noob"));
-        playerController.createPlayer(new PlayerDTO("Pro"));
+        System.out.println("\n Creating players:");
+        playerController.createPlayer(new PlayerDTO("Noob2012"));
+        playerController.createPlayer(new PlayerDTO("scibidi_Pro"));
 
         // Попытка создать дубликат
-        System.out.println("\n ! Attempting to create duplicate player:");
-        playerController.createPlayer(new PlayerDTO("Pro"));
+        System.out.println("\n Attempting to create duplicate player(exception):");
+        playerController.createPlayer(new PlayerDTO("scibidi_Pro"));
 
-        // 2. Создание карт
-        System.out.println("\n📝 Creating cards...");
-        cardController.createCard(new CardDTO("Knight", "WARRIOR", "COMMON", 3, 2));
-        cardController.createCard(new CardDTO("Fireball", "SPELL", "RARE", 4, 3));
-        cardController.createCard(new CardDTO("Princess", "WARRIOR", "LEGENDARY", 3, 1));
+        // 2 создаем карты
+        System.out.println("\n📝 Creating cards:");
+        cardController.createCard(new CardDTO("Knight", "WARRIOR", "COMMON", 3, 14, 267, 2339, 0, 0));
+        cardController.createCard(new CardDTO("Fireball", "SPELL", "RARE", 4, 13, 831, 0, 3, 0));
+        cardController.createCard(new CardDTO("Princess", "WARRIOR", "LEGENDARY", 3, 12, 185, 286, 0, 0));
 
-        // 3. Список всех карт
+        // 3 выводим все карты
         cardController.listAllCards();
 
-        // 4. Апгрейд карты
-        System.out.println("\n⬆️ Upgrading card...");
-        cardController.upgradeCard(3);
+        // 4 улучшаем карты
+        System.out.println("\n ↑ Upgrading card...");
+        cardController.upgradeCard(2);
 
-        // 5. Полиморфизм
-        System.out.println("\n🔀 Demonstrating polymorphism:");
+        // 5 полиморфизм
+        System.out.println("\n Demonstrating polymorphism:");
         demonstratePolymorphism();
 
-        // 6. Композиция (Deck)
-        System.out.println("\n🃏 Demonstrating composition (Deck):");
+        // 6 Композиция (Deck) - один объект содержит другой
+        System.out.println("\n Demonstrating composition (Deck):");
         demonstrateDeck();
 
-        // 7. Валидация
-        System.out.println("\n❗ Demonstrating validation:");
+        // 7 Валидация
+        System.out.println("\n Demonstrating validation:");
         demonstrateValidation();
 
-        // 8. Список игроков
+        // 8 Список игроков
+        System.out.println("\n All Players:");
         playerController.listAllPlayers();
 
-        // 9. Добавление трофеев
-        System.out.println("\n🏆 Adding trophies...");
-        playerController.addTrophies(1, 50);
+        // 9 Добавляем трофеев
+        System.out.println("\n Adding trophies:");
+        playerController.addTrophies(1, 30);
 
-        // 10. Удаление карты
-        System.out.println("\n🗑️ Deleting card...");
+        // 10 Удаляем карты
+        System.out.println("\n Deleting card:");
         cardController.deleteCard(2);
 
         cardController.listAllCards();
 
-        System.out.println("\n✅ Demo completed!");
+        System.out.println("\n :-) Demo completed!");
     }
 
     private static void demonstratePolymorphism() {
@@ -70,8 +71,8 @@ public class Main {
         };
 
         for (Card card : cards) {
-            System.out.println("  Card: " + card.getName() + " | Type: " + card.getType() +
-                    " | Can upgrade: " + card.canUpgrade());
+            System.out.println("  Card: " + card.getName() + " Type: " + card.getType() +
+                    " Can upgrade: " + card.canUpgrade());
         }
     }
 
@@ -97,7 +98,7 @@ public class Main {
             Card invalidCard = new WarriorCard(0, "", "COMMON", 15, -1, 100, 50);
             invalidCard.validate();
         } catch (InvalidInputException e) {
-            System.out.println("  ✅ Validation caught: " + e.getMessage());
+            System.out.println(" :-) Validation caught: " + e.getMessage());
         }
     }
 }

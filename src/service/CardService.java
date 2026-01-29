@@ -23,8 +23,8 @@ public class CardService {
         return cardRepository.getAll();
     }
 
-    public Card getCardById(int id) throws ResourceNotFoundException, DatabaseException {
-        return cardRepository.getById(id);
+    public Card getCardByID(int id) throws ResourceNotFoundException, DatabaseException {
+        return cardRepository.getByID(id);
     }
 
     public void updateCard(int id, Card card) throws InvalidInputException, ResourceNotFoundException, DatabaseException {
@@ -35,11 +35,11 @@ public class CardService {
 
     public void deleteCard(int id) throws ResourceNotFoundException, DatabaseException {
         cardRepository.delete(id);
-        System.out.println(":) Card deleted with id: " + id);
+        System.out.println(":( Card deleted with id: " + id);
     }
 
     public void upgradeCard(int id) throws ResourceNotFoundException, DatabaseException, InvalidInputException {
-        Card card = cardRepository.getById(id);
+        Card card = cardRepository.getByID(id);
         if (!card.canUpgrade()) {
             throw new InvalidInputException("Card is already at max level");
         }

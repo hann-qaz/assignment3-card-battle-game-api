@@ -18,9 +18,13 @@ public class CardController {
         try {
             Card card;
             if ("WARRIOR".equals(dto.type)) {
-                card = new WarriorCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, 0, 0);
+                card = new WarriorCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, dto.damage, dto.hp);
+            } else if ("BUILDING".equals(dto.type)) {
+                card = new BuildingCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, dto.hp, dto.lifetime);
+            } else if ("SPELL".equals(dto.type)) {
+                card = new SpellCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, dto.damage, dto.radius);
             } else {
-                card = new SpellCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, 0, 0);
+                throw new InvalidInputException("X Wrong card type. It should be WARRIOR, BUILDING, or SPELL");
             }
             cardService.createCard(card);
         } catch (InvalidInputException | DatabaseException e) {
@@ -31,7 +35,7 @@ public class CardController {
     public void listAllCards() {
         try {
             List<Card> cards = cardService.getAllCards();
-            System.out.println("\n📋 All Cards:");
+            System.out.println("\n All Cards:");
             cards.forEach(card -> System.out.println("  - " + card.getBasicInfo()));
         } catch (DatabaseException e) {
             System.err.println("X Error listing cards: " + e.getMessage());
