@@ -18,9 +18,13 @@ public class CardController {
         try {
             Card card;
             if ("WARRIOR".equals(dto.type)) {
-                card = new WarriorCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, 0, 0);
+                card = new WarriorCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, dto.hp, dto.damage);
+            } else if ("BUILDING".equals(dto.type)) {
+                card = new BuildingCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, dto.hp, dto.lifetime);
+            } else if ("SPELL".equals(dto.type)) {
+                card = new SpellCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, dto.radius, dto.damage);
             } else {
-                card = new SpellCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, 0, 0);
+                throw new InvalidInputException("Invalid card type: " + dto.type + ". Must be WARRIOR, BUILDING, or SPELL");
             }
             cardService.createCard(card);
         } catch (InvalidInputException | DatabaseException e) {

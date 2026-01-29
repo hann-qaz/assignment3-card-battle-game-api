@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CardRepository {
     public void create(Card card) throws DatabaseException {
-        String sql = "insert into cards (name, card_type, rarity, elixir_cost, level) values (?, ?, ?, ?, ?)";
+        String sql = "insert into cards (name, card_type, rarity, elixir_cost, level, damage, hp, radius, lifetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -18,6 +18,32 @@ public class CardRepository {
             stmt.setString(3, card.getRarity());
             stmt.setInt(4, card.getElixirCost());
             stmt.setInt(5, card.getLevel());
+            
+            // Set card-specific attributes
+            if (card instanceof WarriorCard) {
+                WarriorCard warrior = (WarriorCard) card;
+                stmt.setInt(6, warrior.getDamage());
+                stmt.setInt(7, warrior.getHP());
+                stmt.setInt(8, 0);
+                stmt.setInt(9, 0);
+            } else if (card instanceof SpellCard) {
+                SpellCard spell = (SpellCard) card;
+                stmt.setInt(6, spell.getDamage());
+                stmt.setInt(7, 0);
+                stmt.setInt(8, spell.getRadius());
+                stmt.setInt(9, 0);
+            } else if (card instanceof BuildingCard) {
+                BuildingCard building = (BuildingCard) card;
+                stmt.setInt(6, 0);
+                stmt.setInt(7, building.getHp());
+                stmt.setInt(8, 0);
+                stmt.setInt(9, building.getLifetime());
+            } else {
+                stmt.setInt(6, 0);
+                stmt.setInt(7, 0);
+                stmt.setInt(8, 0);
+                stmt.setInt(9, 0);
+            }
 
             stmt.executeUpdate();
 
@@ -66,7 +92,7 @@ public class CardRepository {
     }
 
     public void update(int id, Card card) throws DatabaseException, ResourceNotFoundException {
-        String sql = "update cards set name = ?, card_type=?, rarity = ?, elixir_cost = ?, level = & where id = ?";
+        String sql = "update cards set name = ?, card_type=?, rarity = ?, elixir_cost = ?, level = ?, damage = ?, hp = ?, radius = ?, lifetime = ? where id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -76,7 +102,34 @@ public class CardRepository {
             stmt.setString(3, card.getRarity());
             stmt.setInt(4, card.getElixirCost());
             stmt.setInt(5, card.getLevel());
-            stmt.setInt(6, id);
+            
+            // Set card-specific attributes
+            if (card instanceof WarriorCard) {
+                WarriorCard warrior = (WarriorCard) card;
+                stmt.setInt(6, warrior.getDamage());
+                stmt.setInt(7, warrior.getHP());
+                stmt.setInt(8, 0);
+                stmt.setInt(9, 0);
+            } else if (card instanceof SpellCard) {
+                SpellCard spell = (SpellCard) card;
+                stmt.setInt(6, spell.getDamage());
+                stmt.setInt(7, 0);
+                stmt.setInt(8, spell.getRadius());
+                stmt.setInt(9, 0);
+            } else if (card instanceof BuildingCard) {
+                BuildingCard building = (BuildingCard) card;
+                stmt.setInt(6, 0);
+                stmt.setInt(7, building.getHp());
+                stmt.setInt(8, 0);
+                stmt.setInt(9, building.getLifetime());
+            } else {
+                stmt.setInt(6, 0);
+                stmt.setInt(7, 0);
+                stmt.setInt(8, 0);
+                stmt.setInt(9, 0);
+            }
+            
+            stmt.setInt(10, id);
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected == 0) {
