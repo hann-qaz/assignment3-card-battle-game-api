@@ -12,6 +12,11 @@ public class BuildingCard extends Card {
 
     @Override
     public String getType() { return "Building"; }
+    
+    @Override
+    public String getBasicInfo() {
+        return super.getBasicInfo() + ", HP: " + hp + ", Lifetime: " + lifetime + "s";
+    }
 
     /// getters setters
     public int getHp() { return hp; }

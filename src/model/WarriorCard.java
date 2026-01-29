@@ -12,6 +12,11 @@ public class WarriorCard extends Card{
 
     @Override
     public String getType() { return "Warrior"; }
+    
+    @Override
+    public String getBasicInfo() {
+        return super.getBasicInfo() + ", HP: " + hp + ", Damage: " + damage;
+    }
 
     ///getters, setters
     public int getHP() { return hp;}
