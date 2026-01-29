@@ -22,7 +22,7 @@ public class CardRepository {
         // Set card-specific attributes based on card type
         if (card instanceof WarriorCard) {
             WarriorCard warrior = (WarriorCard) card;
-            stmt.setInt(6, warrior.getHP());
+            stmt.setInt(6, warrior.getHp());
             stmt.setInt(7, warrior.getDamage());
             stmt.setNull(8, Types.INTEGER);
             stmt.setNull(9, Types.INTEGER);
@@ -38,6 +38,12 @@ public class CardRepository {
             stmt.setInt(7, spell.getDamage());
             stmt.setNull(8, Types.INTEGER);
             stmt.setInt(9, spell.getRadius());
+        } else {
+            // Unknown card type, set all attributes to null
+            stmt.setNull(6, Types.INTEGER);
+            stmt.setNull(7, Types.INTEGER);
+            stmt.setNull(8, Types.INTEGER);
+            stmt.setNull(9, Types.INTEGER);
         }
 
         stmt.executeUpdate();
@@ -67,7 +73,7 @@ public class CardRepository {
         }
         return cards;
  }
-public Card getByID(int id) throws ResourceNotFoundException, DatabaseOperationException {
+public Card getById(int id) throws ResourceNotFoundException, DatabaseOperationException {
         String sql = "select * from cards where id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -101,7 +107,7 @@ public Card getByID(int id) throws ResourceNotFoundException, DatabaseOperationE
             // Set card-specific attributes based on card type
             if (card instanceof WarriorCard) {
                 WarriorCard warrior = (WarriorCard) card;
-                stmt.setInt(6, warrior.getHP());
+                stmt.setInt(6, warrior.getHp());
                 stmt.setInt(7, warrior.getDamage());
                 stmt.setNull(8, Types.INTEGER);
                 stmt.setNull(9, Types.INTEGER);
@@ -117,6 +123,12 @@ public Card getByID(int id) throws ResourceNotFoundException, DatabaseOperationE
                 stmt.setInt(7, spell.getDamage());
                 stmt.setNull(8, Types.INTEGER);
                 stmt.setInt(9, spell.getRadius());
+            } else {
+                // Unknown card type, set all attributes to null
+                stmt.setNull(6, Types.INTEGER);
+                stmt.setNull(7, Types.INTEGER);
+                stmt.setNull(8, Types.INTEGER);
+                stmt.setNull(9, Types.INTEGER);
             }
             
             stmt.setInt(10, id);

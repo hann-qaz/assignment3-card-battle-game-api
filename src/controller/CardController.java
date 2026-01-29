@@ -25,10 +25,12 @@ public class CardController {
                 int hp = (dto.hp != null) ? dto.hp : 500;
                 int lifetime = (dto.lifetime != null) ? dto.lifetime : 30;
                 card = new BuildingCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, hp, lifetime);
-            } else {
+            } else if ("Spell".equals(dto.type)) {
                 int radius = (dto.radius != null) ? dto.radius : 3;
                 int damage = (dto.damage != null) ? dto.damage : 100;
                 card = new SpellCard(0, dto.name, dto.rarity, dto.elixirCost, dto.level, radius, damage);
+            } else {
+                throw new InvalidInputException("Invalid card type: " + dto.type + ". Must be Warrior, Building, or Spell");
             }
             cardService.createCard(card);
         } catch (InvalidInputException | DatabaseOperationException e) {

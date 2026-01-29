@@ -24,7 +24,7 @@ public class CardService {
     }
 
     public Card getCardById(int id) throws ResourceNotFoundException, DatabaseOperationException {
-        return cardRepository.getByID(id);
+        return cardRepository.getById(id);
     }
 
     public void updateCard(int id, Card card) throws InvalidInputException, ResourceNotFoundException, DatabaseOperationException {
@@ -39,7 +39,7 @@ public class CardService {
     }
 
     public void upgradeCard(int id) throws ResourceNotFoundException, DatabaseOperationException, InvalidInputException {
-        Card card = cardRepository.getByID(id);
+        Card card = cardRepository.getById(id);
         if (!card.canUpgrade()) {
             throw new InvalidInputException("Card is already at max level");
         }
