@@ -12,6 +12,11 @@ public class SpellCard extends Card {
 
     @Override
     public String getType() { return "Spell"; }
+    
+    @Override
+    public String getBasicInfo() {
+        return super.getBasicInfo() + ", Radius: " + radius + ", Damage: " + damage;
+    }
 
     //getters setters
     public int getRadius() { return radius; }

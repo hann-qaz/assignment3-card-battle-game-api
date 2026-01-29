@@ -24,9 +24,9 @@ public class Main {
 
         // 2. Создание карт
         System.out.println("\n📝 Creating cards...");
-        cardController.createCard(new CardDTO("Knight", "WARRIOR", "COMMON", 3, 1));
-        cardController.createCard(new CardDTO("Fireball", "SPELL", "RARE", 4, 1));
-        cardController.createCard(new CardDTO("Princess", "WARRIOR", "LEGENDARY", 3, 1));
+        cardController.createCard(new CardDTO("Knight", "Warrior", "Common", 3, 1, 1400, 125, null, null));
+        cardController.createCard(new CardDTO("Fireball", "Spell", "Rare", 4, 1, null, 572, null, 3));
+        cardController.createCard(new CardDTO("Princess", "Warrior", "Legendary", 3, 1, 216, 140, null, null));
 
         // 3. Список всех карт
         cardController.listAllCards();
