@@ -36,12 +36,21 @@ for (Card c : cards) {
 }``
 
 ### 5. UML Hierarchy
-``GameEntity (Abstract)
+```
+GameEntity (Abstract)
 ├── Player (Validatable)
 └── Card (Abstract, Validatable, Upgradeable)
     ├── WarriorCard
     ├── SpellCard
-    └── BuildingCard``
+    └── BuildingCard
+```
+
+### 6. Complete UML Class Diagram
+For a comprehensive UML class diagram covering all packages (model, controller, service, repository, dto, exception, utils) with detailed relationships, attributes, methods, and database mappings, see:
+
+**📋 [UML Diagram Generation Prompt](documents/UML_DIAGRAM_PROMPT.md)**
+
+This document contains an AI-ready prompt that you can paste into any AI UML generator (ChatGPT, Claude, PlantUML AI, Mermaid AI) to generate a complete, detailed UML class diagram of the entire project architecture.
 
 ## C. Database Description
 Используется PostgreSQL. Скрипт находится в  Resources/schema.sql.
