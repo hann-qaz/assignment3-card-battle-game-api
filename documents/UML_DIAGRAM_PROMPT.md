@@ -51,7 +51,7 @@ Create a comprehensive UML class diagram for a Java Card Battle Game API with th
   - `- damage: int`
 - Methods:
   - `+ WarriorCard(id: int, name: String, rarity: String, elixirCost: int, level: int, hp: int, damage: int)`
-  - `+ getType(): String` *(returns "WARRIOR")*
+  - `+ getType(): String` *(returns "WARRIOR" but stored as "Warrior" in DB)*
   - `+ getBasicInfo(): String`
   - `+ getHp(): int`
   - `+ getDamage(): int`
@@ -300,6 +300,13 @@ Create a comprehensive UML class diagram for a Java Card Battle Game API with th
 - `players` table ← Foreign Key from `decks.player_id`
 - `decks` and `cards` tables: Many-to-Many via `deck_cards` join table
 - Single Table Inheritance: All card types in `cards` table with `card_type` discriminator
+
+**Important Note on Type Naming Inconsistency:**
+- WarriorCard.getType() returns "WARRIOR" but is stored as "Warrior" in database
+- SpellCard.getType() returns "Spell" (matches database storage)
+- BuildingCard.getType() returns "Building" (matches database storage)
+- The CardRepository.mapResultSetToCard() checks for "Warrior", "Building", and "Spell" (default)
+- This inconsistency exists in the current codebase
 
 ### 10. ARCHITECTURAL PATTERN
 
