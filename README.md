@@ -35,13 +35,6 @@ for (Card c : cards) {
     System.out.println(c.getType()); // Выведет "Warrior", "Spell" и т.д.
 }``
 
-### 5. UML Hierarchy
-``GameEntity (Abstract)
-├── Player (Validatable)
-└── Card (Abstract, Validatable, Upgradeable)
-    ├── WarriorCard
-    ├── SpellCard
-    └── BuildingCard``
 
 ## C. Database Description
 Используется PostgreSQL. Скрипт находится в  Resources/schema.sql.
@@ -69,37 +62,31 @@ INSERT INTO cards (name, card_type, rarity, level) VALUES ('Knight', 'Warrior', 
 Конфигурация: Укажите свои данные в src/utils/DatabaseConnection.java.
 Запуск:
 ``
-# Компиляция
-javac -d out -sourcepath src src/Main.java
-
-# Запуск (Windows, разделитель ;)
-java -cp "out;lib/postgresql-42.7.2.jar" Main
-``
 ## F. Screenshots (Demo Output)
 Демонстрация работы Main.java в консоли:
 ```
-📝 Creating players...
-✅ Player created: SuperGamer
+ Creating players...
+ Player created: SuperGamer
 
-❗ Attempting to create duplicate player:
-❌ Error: Player with name 'SuperGamer' already exists
+ Attempting to create duplicate player:
+ Error: Player with name 'SuperGamer' already exists
 
 📝 Creating cards...
-✅ Card created successfully: Knight
-✅ Card created successfully: Fireball
+ Card created successfully: Knight
+ Card created successfully: Fireball
 
-⬆️ Upgrading card...
-✅ Card upgraded successfully: Knight -> Level 6
+⬆ Upgrading card...
+ Card upgraded successfully: Knight -> Level 6
 
-🔀 Demonstrating polymorphism:
+ Demonstrating polymorphism:
 Card: Goblin | Type: Warrior | Can upgrade: true
 Card: Zap | Type: Spell | Can upgrade: true
 
-🃏 Demonstrating composition (Deck):
+🃏Demonstrating composition (Deck):
 Deck: My Battle Deck | Total cards: 2 | Avg elixir: 3.5
 
-🗑️ Deleting card...
-✅ Card deleted successfully.
+🗑 Deleting card...
+ Card deleted successfully.
 ```
 
 ## G. Reflection
