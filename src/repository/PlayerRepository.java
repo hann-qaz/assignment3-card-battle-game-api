@@ -1,6 +1,7 @@
 package repository;
 
 import model.Player;
+import repository.interfaces.CrudRepository;
 import utils.DatabaseConnection;
 import exception.*;
 
@@ -8,9 +9,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerRepository {
+/**
+ * PlayerRepository implementing generic CrudRepository
+ * Demonstrates: DIP
+ */
+public class PlayerRepository implements CrudRepository<Player> {
 
-    public void create(Player player) throws DatabaseException, DuplicateResourceException {
+    @Override
+    public void create(Player player) throws DatabaseException {
         String sql = "INSERT INTO players (name, level, trophies) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -28,15 +34,16 @@ public class PlayerRepository {
             }
         } catch (SQLException e) {
             if (e.getMessage().contains("duplicate key")) {
-                throw new DuplicateResourceException("Player with name '" + player.getName() + "' already exists");
+                throw new DatabaseException("Player with name '" + player.getName() + "' already exists", e);
             }
             throw new DatabaseException("Failed to create player", e);
         }
     }
 
+    @Override
     public List<Player> getAll() throws DatabaseException {
         List<Player> players = new ArrayList<>();
-        String sql = "select * from players";
+        String sql = "SELECT * FROM players";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -52,8 +59,9 @@ public class PlayerRepository {
         return players;
     }
 
+    @Override
     public Player getById(int id) throws ResourceNotFoundException, DatabaseException {
-        String sql = "select * from players where id = ?";
+        String sql = "SELECT * FROM players WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -71,8 +79,9 @@ public class PlayerRepository {
         }
     }
 
+    @Override
     public void update(int id, Player player) throws DatabaseException, ResourceNotFoundException {
-        String sql = "update players set name = ?, level = ?, trophies = ? where id = ?";
+        String sql = "UPDATE players SET name = ?, level = ?, trophies = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -91,8 +100,9 @@ public class PlayerRepository {
         }
     }
 
+    @Override
     public void delete(int id) throws ResourceNotFoundException, DatabaseException {
-        String sql = "delete from players where id = ?";
+        String sql = "DELETE FROM players WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

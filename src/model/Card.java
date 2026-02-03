@@ -1,7 +1,7 @@
 package model;
 import exception.InvalidInputException;
 
-public abstract class Card extends GameEntity implements Upgradable {
+public abstract class Card extends GameEntity implements Upgradable, Printable {
     protected String rarity;
     protected int elixirCost;
     protected int level;
@@ -38,6 +38,11 @@ public abstract class Card extends GameEntity implements Upgradable {
         return level < 16;
     }
 
+    @Override
+    public String toFormattedString() {
+        return String.format("Card[id=%d, name=%s, type=%s, rarity=%s, elixir=%d, level=%d]",
+                id, name, getType(), rarity, elixirCost, level);
+    }
     //getteri i setteri
     public String getRarity() { return rarity; }
     public int getElixirCost() { return elixirCost; }

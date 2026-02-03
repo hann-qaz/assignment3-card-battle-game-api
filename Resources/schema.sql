@@ -40,3 +40,47 @@ position int not null check (position >= 1 and position <=8),
 primary key (deck_id, card_id),
 unique (deck_id, position)
 );
+
+insert into players (name, level, trophies) values
+                                                ('Amirhan', 12, 10000),
+                                                ('Batyr', 3, 90);
+
+insert into decks (player_id, deck_name) values
+(1, 'Aggro Deck'),
+(2, 'Control Deck');
+
+insert into cards (name, card_type, rarity, elixir_cost, level, damage, hp, radius, lifetime) values
+
+('Knight', 'Warrior', 'Common', 3, 5, 150, 800, 0, 0),
+('Fireball', 'Spell', 'Rare', 4, 3, 300, 0, 2, 0),
+('Princess', 'Warrior', 'Legendary', 3, 1, 120, 400, 0, 0),
+('Archer', 'Warrior', 'Common', 3, 4, 100, 400, 0, 0),
+('Giant', 'Warrior', 'Rare', 5, 2, 200, 2000, 0, 0),
+('Elixir Pump', 'Building', 'Common', 3, 6, 0, 1000, 0, 30),
+('Wizard', 'Warrior', 'Epic', 5, 1, 250, 500, 0, 0),
+('Lightning', 'Spell', 'Epic', 6, 4, 350, 0, 3, 1),
+('Baby Dragon', 'Warrior', 'Epic', 4, 2, 180, 600, 1, 0);
+
+
+insert into deck_cards (deck_id, card_id, position) values
+(1, 1, 1),
+(1, 2, 2),
+(1, 3, 3),
+(1, 4, 4),
+(1, 5, 5),
+(1, 6, 6),
+(1, 7, 7),
+(1, 8, 8),
+(2, 1, 1),
+(2, 4, 2),
+(2, 5, 3),
+(2, 7, 4),
+(2, 2, 5),
+(2, 8, 6),
+(2, 3, 7),
+(2, 9, 8);
+
+select * from players;
+select * from decks;
+select * from cards;
+select * from deck_cards;

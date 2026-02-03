@@ -11,7 +11,6 @@ public abstract class GameEntity implements Validatable {
     }
 
     public abstract String getType();
-
     public String getBasicInfo() {
         return "ID: " + id + ", Name: " + name + ", Type: " + getType();
     }
