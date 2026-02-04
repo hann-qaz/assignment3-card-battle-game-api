@@ -16,7 +16,7 @@ import java.util.List;
 public class PlayerRepository implements CrudRepository<Player> {
 
     @Override
-    public void create(Player player) throws DatabaseException {
+    public void create(Player player) throws DatabaseException, DuplicateResourceException {
         String sql = "INSERT INTO players (name, level, trophies) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -34,7 +34,7 @@ public class PlayerRepository implements CrudRepository<Player> {
             }
         } catch (SQLException e) {
             if (e.getMessage().contains("duplicate key")) {
-                throw new DatabaseException("Player with name '" + player.getName() + "' already exists", e);
+                throw new DuplicateResourceException("Player with name '" + player.getName() + "' already exists", e);
             }
             throw new DatabaseException("Failed to create player", e);
         }

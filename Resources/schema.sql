@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS deck_cards;
-DROP TABLE IF EXISTS decks;
-DROP TABLE IF EXISTS cards;
-DROP TABLE IF EXISTS players;
+DROP TABLE IF EXISTS deck_cards CASCADE;
+DROP TABLE IF EXISTS decks CASCADE;
+DROP TABLE IF EXISTS cards CASCADE;
+DROP TABLE IF EXISTS players CASCADE;
 
 ---таблица игроков
 create table players (

@@ -1,6 +1,7 @@
 package repository.interfaces;
 
 import exception.DatabaseException;
+import exception.DuplicateResourceException;
 import exception.ResourceNotFoundException;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
   @param <T> The entity type
  */
 public interface CrudRepository<T> {
-    void create(T entity) throws DatabaseException;
+    void create(T entity) throws DatabaseException, DuplicateResourceException;
     List<T> getAll() throws DatabaseException;
     T getById(int id) throws ResourceNotFoundException, DatabaseException;
     void update(int id, T entity) throws DatabaseException, ResourceNotFoundException;

@@ -17,10 +17,10 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("🎮 Clash Royale Game API - Assignment 4 (SOLID)");
-        System.out.println("=".repeat(60));
+        System.out.println("Clash Royale game API - Assignment 4 (SOLID)");
+        System.out.println("==============================================");
 
-        // Dependency Injection - DIP in action
+        // Dependency Injection -  dependencies inversion principle
         CrudRepository<Card> cardRepo = new CardRepository();
         CrudRepository<Player> playerRepo = new PlayerRepository();
 
@@ -30,37 +30,46 @@ public class Main {
         CardController cardController = new CardController(cardService);
         PlayerController playerController = new PlayerController(playerService);
 
-        // 1. Creating players
-        System.out.println("\n👤 Creating players:");
+        // 1 создаем игроков
+        System.out.println("\n Creating players:");
         playerController.createPlayer(new PlayerDTO("Noob2012"));
         playerController.createPlayer(new PlayerDTO("scibidi_Pro"));
         playerController.createPlayer(new PlayerDTO("ProGamer123"));
 
-        // 2. Creating cards
-        System.out.println("\n📝 Creating cards:");
+        // Попытка создать дубликат
+        System.out.println("\n Attempting to create duplicate player(exception):");
+        playerController.createPlayer(new PlayerDTO("scibidi_Pro"));
+
+        // 2 создаем карты
+        System.out.println("\n Creating cards:");
         cardController.createCard(new CardDTO("Knight", "WARRIOR", "COMMON", 3, 14, 267, 2339, 0, 0));
         cardController.createCard(new CardDTO("Fireball", "SPELL", "RARE", 4, 13, 831, 0, 3, 0));
         cardController.createCard(new CardDTO("Princess", "WARRIOR", "LEGENDARY", 3, 12, 185, 286, 0, 0));
         cardController.createCard(new CardDTO("Cannon", "BUILDING", "COMMON", 3, 11, 0, 824, 0, 30));
         cardController.createCard(new CardDTO("Giant", "WARRIOR", "RARE", 5, 10, 211, 3275, 0, 0));
 
-        // 3. List all cards
+        // 3 выводим их
         cardController.listAllCards();
 
-        // 4. Polymorphism demonstration
-        System.out.println("\n🔄 Demonstrating POLYMORPHISM (LSP):");
+        // 4 улучшаем их
+        System.out.println("\n Upgrading cards:");
+        cardController.upgradeCard(1);
+        cardController.upgradeCard(2);
+
+        // 5 полиморфизм
+        System.out.println("\n Demonstrating polymorphism (LSP):");
         demonstratePolymorphism();
 
-        // 5. Composition demonstration
-        System.out.println("\n🗂️ Demonstrating COMPOSITION (Deck):");
+        // 6 композиция (Deck) - один объект содержит другой
+        System.out.println("\n Demonstrating composition (Deck has cards):");
         demonstrateDeck();
 
-        // 6. LAMBDAS: Sorting cards
-        System.out.println("\n🔀 Demonstrating LAMBDAS (Sorting):");
+        // 7 Lambda: сортировка
+        System.out.println("\n Demonstrating Lambdas (Sorting):");
         try {
             List<Card> cards = cardService.getAllCards();
 
-            System.out.println("\n📊 Original order:");
+            System.out.println("\n Original order:");
             cards.forEach(c -> System.out.println("  " + c.getBasicInfo()));
 
             SortingUtils.sortCardsByLevel(cards);
@@ -71,8 +80,8 @@ public class Main {
             System.out.println("\nAfter sorting by name:");
             cards.forEach(c -> System.out.println("  " + c.getBasicInfo()));
 
-            // Filter using lambda
-            System.out.println("\n🔍 Cards with level >= 12:");
+            // iltering
+            System.out.println("\n Cards with level >= 12:");
             List<Card> filteredCards = SortingUtils.filterCardsByMinLevel(cards, 12);
             filteredCards.forEach(c -> System.out.println("  " + c.getBasicInfo()));
 
@@ -80,8 +89,8 @@ public class Main {
             System.err.println("Error: " + e.getMessage());
         }
 
-        // 7. REFLECTION: Inspect objects
-        System.out.println("\n🔬 Demonstrating REFLECTION (RTTI):");
+        // 8 REFLECTION: Inspect objects
+        System.out.println("\n Demonstrating REFLECTION:");
         try {
             Card knightCard = new WarriorCard(1, "TestKnight", "COMMON", 3, 10, 200, 80);
             ReflectionUtils.inspectClass(knightCard);
@@ -92,8 +101,8 @@ public class Main {
             System.err.println("Error: " + e.getMessage());
         }
 
-        // 8. GENERICS: Using generic repository methods
-        System.out.println("\n📦 Demonstrating GENERICS (Generic Repository):");
+        // 9 генерики
+        System.out.println("\n Demonstrating GENERICS (Generic Repository):");
         try {
             // Using default method from generic interface
             int cardCount = cardRepo.count();
@@ -109,8 +118,8 @@ public class Main {
             System.err.println("Error: " + e.getMessage());
         }
 
-        // 9. INTERFACE default/static methods
-        System.out.println("\n🔌 Demonstrating INTERFACE default/static methods:");
+        // 10 INTERFACE default/static methods
+        System.out.println("\n Demonstrating INTERFACE default/static methods:");
         try {
             Card card = cardService.getAllCards().get(0);
             // Using Printable interface default method
@@ -124,40 +133,35 @@ public class Main {
             System.err.println("Error: " + e.getMessage());
         }
 
-        // 10. Upgrade cards
-        System.out.println("\n⬆️ Upgrading cards:");
-        cardController.upgradeCard(1);
-        cardController.upgradeCard(2);
-
-        // 11. Add trophies
-        System.out.println("\n🏆 Adding trophies:");
+        // 11 добавляю кубки
+        System.out.println("\n Adding trophies:");
         playerController.addTrophies(1, 50);
         playerController.addTrophies(2, 100);
 
-        // 12. List all players
+        // 12 все игроки
         playerController.listAllPlayers();
 
-        // 13. Sorting players
-        System.out.println("\n📊 Demonstrating LAMBDAS with Players:");
+        // 13 сортировка игроков
+        System.out.println("\n Demonstrating LAMBDAS with Players:");
         try {
             List<Player> players = playerService.getAllPlayers();
             SortingUtils.sortPlayersByTrophies(players);
             players.forEach(p -> System.out.println("  " + p.getBasicInfo() +
-                    " | Trophies: " + p.getTrophies()));
+                    " Trophies: " + p.getTrophies()));
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
 
         // 14. Delete card
-        System.out.println("\n🗑️ Deleting card:");
+        System.out.println("\n Deleting card:");
         cardController.deleteCard(3);
 
-        System.out.println("\n✅ Demo completed!");
-        System.out.println("=".repeat(60));
+        System.out.println("\n=) Demo completed!");
+        System.out.println("==============================================");
     }
 
     private static void demonstratePolymorphism() {
-        // LSP - Liskov Substitution Principle
+        // LSP
         Card[] cards = {
                 new WarriorCard(0, "Goblin", "COMMON", 2, 5, 100, 50),
                 new SpellCard(0, "Zap", "COMMON", 2, 8, 3, 120),
@@ -165,9 +169,9 @@ public class Main {
         };
 
         for (Card card : cards) {
-            System.out.println("  📌 Card: " + card.getName() +
-                    " | Type: " + card.getType() +
-                    " | Can upgrade: " + card.canUpgrade());
+            System.out.println("  Card: " + card.getName() +
+                    " Type: " + card.getType() +
+                    " Can upgrade: " + card.canUpgrade());
             // Polymorphism - each card type behaves correctly
             card.printDetails(); // Using Printable interface
         }
