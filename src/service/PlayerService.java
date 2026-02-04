@@ -25,6 +25,7 @@ public class PlayerService implements PlayerServiceInterface {
         System.out.println(" Player created: " + player.getName());
     }
 
+
     @Override
     public List<Player> getAllPlayers() throws DatabaseException {
         return playerRepository.getAll();

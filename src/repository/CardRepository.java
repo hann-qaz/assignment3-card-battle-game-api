@@ -49,14 +49,21 @@ public class CardRepository implements CrudRepository<Card> {
                 stmt.setInt(9, building.getLifetime());
             }
 
-            stmt.executeUpdate();
+            int affectedRows = stmt.executeUpdate();
 
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                card.setId(rs.getInt(1));
+            if (affectedRows == 0) {
+                throw new DatabaseException("Failed to create card, no rows affected");
+            }
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    card.setId(rs.getInt(1));
+                }
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to create card", e);
+            System.err.println(" SQL Error: " + e.getMessage());
+            e.printStackTrace();
+            throw new DatabaseException("Failed to create card: " + e.getMessage(), e);
         }
     }
 
